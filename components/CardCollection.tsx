@@ -21,7 +21,11 @@ const CardCollection = async ({ type, id, title }: Props) => {
       : "/artists";
 
   return (
-    <div className="flex flex-col gap-4">
+    <div
+      className={`flex-col gap-4 ${
+        type === "song" && !playlist?.data.songs.length ? "hidden" : "flex"
+      } `}
+    >
       <div className="flex items-center justify-between">
         <h2 className="text-lg sm:text-xl font-semibold truncate">{title}</h2>
         <Link
