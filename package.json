@@ -15,7 +15,7 @@
     "localstorage-slim": "^2.7.1",
     "mongoose": "^8.13.2",
     "next": "^15.2.4",
-    "next-auth": "^5.0.0-beta.22",
+    "next-auth": "^5.0.0-beta.27",
     "react": "^19.0.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
