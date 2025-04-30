@@ -17,7 +17,12 @@ export const GET = async (request: NextRequest) => {
       secret: process.env.AUTH_SECRET,
       cookieName: authCookiesName,
     });
-    if (!token?.sub) {
+
+    const hexTokenSub = (token?.sub as any)?.buffer
+      ? Buffer.from(Object.values((token?.sub as any)?.buffer)).toString("hex")
+      : token?.sub;
+
+    if (!hexTokenSub) {
       return NextResponse.json(
         { error: "User id not found in token" },
         { status: 400 }
@@ -27,7 +32,7 @@ export const GET = async (request: NextRequest) => {
     await connectDB();
 
     const users = await Users.find(
-      { _id: { $ne: token.sub } },
+      { _id: { $ne: hexTokenSub } },
       { playlist: 1 }
     );
 

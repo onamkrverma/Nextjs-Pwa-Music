@@ -23,21 +23,17 @@ export async function middleware(req: NextRequest) {
     "/api/users",
   ];
 
-  console.log("token sub", token?.sub);
-
-  const hexString = (token?.sub as any)?.buffer
+  const hexTokenSub = (token?.sub as any)?.buffer
     ? Buffer.from(Object.values((token?.sub as any)?.buffer)).toString("hex")
-    : "";
+    : token?.sub;
 
   const userPaths = [
-    `/api/users/${token?.sub}`,
+    `/api/users/${hexTokenSub}`,
     "/api/users/public-playlist",
     "/playlist/liked-songs",
     "/playlist/user-playlist",
     "/playlist",
   ];
-
-  console.log({ hexString });
 
   if (!token) {
     if (protectedPaths.some((path) => pathname.startsWith(path))) {
