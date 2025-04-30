@@ -30,6 +30,11 @@ export async function middleware(req: NextRequest) {
     "/playlist/user-playlist",
     "/playlist",
   ];
+  console.log("token sub", token?.sub);
+  const hexString = Buffer.from(
+    Object.values((token?.sub as any)?.buffer)
+  ).toString("hex");
+  console.log({ hexString });
 
   if (!token) {
     if (protectedPaths.some((path) => pathname.startsWith(path))) {
