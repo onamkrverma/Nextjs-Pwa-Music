@@ -16,6 +16,7 @@ import useSWR, { mutate } from "swr";
 import MiniPlayer from "./MiniPlayer";
 import Popup from "./Popup";
 import SuggestedSongs from "./SuggestedSongs";
+import { secureURL } from "@/utils/server";
 
 export type TplayerState = {
   url: string;
@@ -130,8 +131,9 @@ const Plalyer = () => {
 
     const nextImageUrl =
       image.find((item) => item.quality === "500x500")?.url ?? "";
-    const nextAudioUrl =
-      downloadUrl.find((item) => item.quality === "320kbps")?.url ?? "";
+    const nextAudioUrl = secureURL(
+      downloadUrl.find((item) => item.quality === "320kbps")?.url ?? ""
+    );
 
     setGlobalState((prev) => ({
       ...prev,

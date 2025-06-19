@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Card from "./Card";
 import { topArtist } from "@/utils/topArtists";
+import { secureURL } from "@/utils/server";
 
 type Props = {
   id?: string;
@@ -49,10 +50,10 @@ const CardCollection = async ({ type, id, title }: Props) => {
                 }
                 artist={song.artists.primary[0].name}
                 album={song.album.name.replaceAll("&quot;", '"')}
-                audioUrl={
+                audioUrl={secureURL(
                   song.downloadUrl.find((item) => item.quality === "320kbps")
                     ?.url ?? ""
-                }
+                )}
                 type="song"
               />
             ))

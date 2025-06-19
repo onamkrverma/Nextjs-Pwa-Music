@@ -6,3 +6,6 @@ export const randomServer = () => {
   const randomNumber = Math.floor(Math.random() * urls.length);
   return urls[randomNumber];
 };
+
+export const secureURL = (url: string) =>
+  url?.startsWith("http://") ? url.replace("http://", "https://") : url;

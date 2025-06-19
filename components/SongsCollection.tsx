@@ -18,6 +18,7 @@ import { MouseEvent, useEffect, useRef, useState } from "react";
 import ImageWithFallback from "./ImageWithFallback";
 import Popup from "./Player/Popup";
 import { mutate } from "swr";
+import { secureURL } from "@/utils/server";
 
 const LikeDislike = dynamic(() => import("./LikeDislike"), { ssr: false });
 
@@ -59,8 +60,9 @@ const SongsCollection = ({
   const albumName = album.name.replaceAll("&quot;", '"');
   const imageUrl =
     image.find((item) => item.quality === "500x500")?.url ?? "logo-circle.svg";
-  const audioUrl =
-    downloadUrl.find((item) => item.quality === "320kbps")?.url ?? "";
+  const audioUrl = secureURL(
+    downloadUrl.find((item) => item.quality === "320kbps")?.url ?? ""
+  );
 
   const handleUpdateState = () => {
     if (isMoreBtnClick) return;

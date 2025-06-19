@@ -2,6 +2,7 @@
 import { useGlobalContext } from "@/app/GlobalContex";
 import PlayIcon from "@/public/icons/play.svg";
 import { TSong } from "@/utils/api.d";
+import { secureURL } from "@/utils/server";
 import { usePathname, useRouter } from "next/navigation";
 
 type Props = {
@@ -21,8 +22,9 @@ const PlayAllSongs = ({ firstSong, suggestionSongIds }: Props) => {
 
   const imageUrl =
     image.find((item) => item.quality === "500x500")?.url ?? "logo-circle.svg";
-  const audioUrl =
-    downloadUrl.find((item) => item.quality === "320kbps")?.url ?? "";
+  const audioUrl = secureURL(
+    downloadUrl.find((item) => item.quality === "320kbps")?.url ?? ""
+  );
 
   const handleUpdateState = () => {
     setGlobalState((prev) => ({

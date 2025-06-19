@@ -8,6 +8,7 @@ import MovableIcon from "@/public/icons/movable.svg";
 import PlayIcon from "@/public/icons/play.svg";
 import { useDraggableList } from "@/utils/hook/useDraggableList";
 import DeleteIcon from "@/public/icons/delete.svg";
+import { secureURL } from "@/utils/server";
 
 type Props = {
   song: TSong;
@@ -40,9 +41,9 @@ const SuggestedSongCard = ({
         album: song.album.name.replaceAll("&quot;", '"'),
         imageUrl:
           song.image.find((item) => item.quality === "500x500")?.url ?? "",
-        audioUrl:
-          song.downloadUrl.find((item) => item.quality === "320kbps")?.url ??
-          "",
+        audioUrl: secureURL(
+          song.downloadUrl.find((item) => item.quality === "320kbps")?.url ?? ""
+        ),
         isMaximise: true,
         isRefetchSuggestion: false,
       },
