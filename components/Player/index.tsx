@@ -310,7 +310,7 @@ const Plalyer = () => {
         alertMessage: { isAlertVisible: false, message: "" },
       }));
       setIsDownloading(false);
-    }, 30 * 1000);
+    }, 10 * 1000);
   };
 
   return (
@@ -413,11 +413,11 @@ const Plalyer = () => {
               {/* song poster */}
               <div
                 className={`sm:w-[150px] md:w-[250px] lg:w-[350px] ${
-                  screenHeight > 640
-                    ? "w-[80%]"
-                    : screenHeight > 850
+                  screenHeight >= 850
                     ? "w-11/12"
-                    : "w-9/12"
+                    : screenHeight >= 640
+                    ? "w-[80%]"
+                    : "w-1/2"
                 }`}
               >
                 <ImageWithFallback

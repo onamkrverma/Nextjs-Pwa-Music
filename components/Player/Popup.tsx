@@ -76,8 +76,8 @@ const Popup = ({
     }
   );
 
-  const urlSlug = (title: string, id: string) =>
-    `/artists/${encodeURIComponent(
+  const urlSlug = (path: string, title: string, id: string) =>
+    `/${path}/${encodeURIComponent(
       title.replaceAll(" ", "-").toLowerCase()
     )}-${id}`;
 
@@ -188,12 +188,21 @@ const Popup = ({
                   <p>Language: {song.language} </p>
                   <p>Lable: {song.label}</p>
                   <p>Copyright: {song.copyright}</p>
+                  <p>
+                    Album:{" "}
+                    <Link
+                      href={urlSlug("album", song.album.name, song.album.id)}
+                      className="underline underline-offset-4"
+                    >
+                      {song.album.name}
+                    </Link>
+                  </p>
                   <div className="border-t pt-2 flex flex-col gap-2">
                     <p>Artists info:</p>
                     {song.artists.all.map((artist, index) => (
                       <div key={index}>
                         <Link
-                          href={urlSlug(artist.name, artist.id)}
+                          href={urlSlug("artists", artist.name, artist.id)}
                           className="underline underline-offset-4"
                         >
                           {artist.name}
