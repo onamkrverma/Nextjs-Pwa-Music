@@ -32,7 +32,7 @@ type TAlertMessage = {
   message: string;
 };
 
-type TGlobalState = {
+export type TGlobalState = {
   currentSong: TCurrentSong;
   likedSongsIds: string[];
   alertMessage?: TAlertMessage;
@@ -126,6 +126,20 @@ export const GlobalContextProvider = ({
         })
       : null;
   }, []);
+
+  useEffect(() => {
+    if (globalState.alertMessage?.isAlertVisible) {
+      const timer = setTimeout(() => {
+        setGlobalState((prev) => ({
+          ...prev,
+          alertMessage: { isAlertVisible: false, message: "" },
+        }));
+      }, 3000);
+
+      return () => clearTimeout(timer); // Cleanup to avoid memory leaks
+    }
+  }, [globalState.alertMessage]);
+
   return (
     <GlobalContext.Provider value={{ ...globalState, setGlobalState }}>
       <DndProvider backend={HTML5Backend}>{children}</DndProvider>

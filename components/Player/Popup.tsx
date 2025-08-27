@@ -13,6 +13,7 @@ import React, { ChangeEvent, useRef, useState } from "react";
 import useSWR from "swr";
 import Input from "../Input";
 import Loading from "../Loading";
+import ArrowIcon from "@/public/icons/arrow-left.svg";
 
 type Props = {
   isPopup: boolean;
@@ -156,15 +157,23 @@ const Popup = ({
       <div className="flex flex-col gap-2 p-4 bg-primary rounded-md w-10/12 max-w-md min-h-40 max-h-[500px] z-[2] overflow-scroll">
         <div className="border-b pb-2 flex justify-between items-center">
           <p className="text-lg font-semibold">
-            {variant === "song-info"
-              ? "Song Info"
-              : isAddNewPlaylist
-              ? "Create New Playlist"
-              : variant === "edit-playlist"
-              ? "Edit Playlist info"
-              : variant === "add-playlist"
-              ? "Add to Playlist"
-              : "Speak to Search"}
+            {variant === "song-info" ? (
+              <Link
+                href={`/song/${id}`}
+                className="relative group underline-offset-4 hover:underline"
+              >
+                Song Info{" "}
+                <ArrowIcon className="size-4 absolute top-1 -right-5 rotate-[145deg] group-hover:scale-125 transition-transform" />
+              </Link>
+            ) : isAddNewPlaylist ? (
+              "Create New Playlist"
+            ) : variant === "edit-playlist" ? (
+              "Edit Playlist info"
+            ) : variant === "add-playlist" ? (
+              "Add to Playlist"
+            ) : (
+              "Speak to Search"
+            )}
           </p>
           <button
             type="button"

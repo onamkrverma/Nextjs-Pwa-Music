@@ -6,6 +6,7 @@ import PlaylistPlayIcon from "@/public/icons/playlist-play.svg";
 import DeleteIcon from "@/public/icons/delete.svg";
 import MovableIcon from "@/public/icons/movable.svg";
 import SaveIcon from "@/public/icons/save.svg";
+import MusicIcon from "@/public/icons/music.svg";
 import ThreeDotsIcon from "@/public/icons/three-dots.svg";
 import { deleteUserPlaylistSongs } from "@/utils/api";
 import { TSong } from "@/utils/api.d";
@@ -268,6 +269,13 @@ const SongsCollection = ({
               Go to album
             </Link>
           ) : null}
+          <Link
+            href={`/song/${id}`}
+            className="flex items-center gap-1 text-xs rounded-md p-2 hover:bg-secondary"
+          >
+            <MusicIcon className="w-4 h-4" />
+            Go to song
+          </Link>
 
           {playlistId && type === "private" ? (
             <button

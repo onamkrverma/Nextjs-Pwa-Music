@@ -2,12 +2,14 @@
 import { useGlobalContext } from "@/app/GlobalContex";
 import ImageWithFallback from "@/components/ImageWithFallback";
 import CaretUpIcon from "@/public/icons/caret-up.svg";
-import DownloadIcon from "@/public/icons/download.svg";
+// import DownloadIcon from "@/public/icons/download.svg";
 import InfoIcon from "@/public/icons/info.svg";
+import ShareIcon from "@/public/icons/share.svg";
 import ThreeDotsIcon from "@/public/icons/three-dots.svg";
-import { getDownloadAudio, getSongs, getSuggestedSongs } from "@/utils/api";
+import { getSongs, getSuggestedSongs } from "@/utils/api";
 import { TSong } from "@/utils/api.d";
 import useWindowDimensions from "@/utils/hook/useWindowDimensions";
+import { secureURL } from "@/utils/server";
 import ls from "localstorage-slim";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -16,7 +18,7 @@ import useSWR, { mutate } from "swr";
 import MiniPlayer from "./MiniPlayer";
 import Popup from "./Popup";
 import SuggestedSongs from "./SuggestedSongs";
-import { secureURL } from "@/utils/server";
+import { handleShare, mediaSession } from "@/utils/playerHelper";
 
 export type TplayerState = {
   url: string;
@@ -57,7 +59,7 @@ const Plalyer = () => {
   const playerRef = useRef<ReactPlayer>(null);
   const [isMoreBtnClick, setIsMoreBtnClick] = useState(false);
   const [isPopup, setIsPopup] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+  // const [isDownloading, setIsDownloading] = useState(false);
   const pathName = usePathname();
   const moreBtnRef = useRef<HTMLButtonElement>(null);
   const [suggestedSongs, setSuggestedSongs] = useState<TSong[]>([]);
@@ -189,79 +191,19 @@ const Plalyer = () => {
 
   // media session
   useEffect(() => {
-    if ("mediaSession" in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: title,
-        album: artist,
-        artwork: [
-          {
-            src: imageUrl,
-            sizes: "96x96",
-            type: "image/jpg",
-          },
-          {
-            src: imageUrl,
-            sizes: "128x128",
-            type: "image/jpg",
-          },
-          {
-            src: imageUrl,
-            sizes: "192x192",
-            type: "image/jpg",
-          },
-          {
-            src: imageUrl,
-            sizes: "256x256",
-            type: "image/jpg",
-          },
-          {
-            src: imageUrl,
-            sizes: "384x384",
-            type: "image/jpg",
-          },
-          {
-            src: imageUrl,
-            sizes: "512x512",
-            type: "image/jpg",
-          },
-        ],
-      });
-
-      navigator.mediaSession.setActionHandler("play", () => {
-        setPlayerState({ ...playerState, playing: true });
-      });
-      navigator.mediaSession.setActionHandler("pause", () => {
-        setPlayerState({ ...playerState, playing: false });
-      });
-
-      navigator.mediaSession.setActionHandler("seekbackward", () => {
-        playerRef.current?.seekTo(playerState.played - 10);
-      });
-      navigator.mediaSession.setActionHandler("seekforward", () => {
-        playerRef.current?.seekTo(playerState.played + 10);
-      });
-
-      const currentSongIndex = getCurrentSongIndex(suggestedSongs, id);
-
-      if (currentSongIndex > 0) {
-        navigator.mediaSession.setActionHandler("previoustrack", () => {
-          handlePrev();
-        });
-      } else {
-        // Unset the "previoustrack" action handler at the end of a list.
-        navigator.mediaSession.setActionHandler("previoustrack", null);
-      }
-
-      if (currentSongIndex !== suggestedSongs.length - 1) {
-        navigator.mediaSession.setActionHandler("nexttrack", () => {
-          handleNext();
-        });
-      } else {
-        // Unset the "nexttrack" action handler at the end of a playlist.
-        navigator.mediaSession.setActionHandler("nexttrack", null);
-      }
-    }
-
+    mediaSession({
+      id,
+      title,
+      artist,
+      imageUrl,
+      playerState,
+      setPlayerState,
+      playerRef,
+      getCurrentSongIndex,
+      suggestedSongs,
+      handleNext,
+      handlePrev,
+    });
     // eslint-disable-next-line
   }, [currentSong, playerState]);
 
@@ -292,26 +234,26 @@ const Plalyer = () => {
     };
   }, []);
 
-  const handleDownload = () => {
-    setIsDownloading(true);
-    setGlobalState((prev) => ({
-      ...prev,
-      alertMessage: {
-        isAlertVisible: true,
-        message: "Downloading... Please wait😊",
-      },
-    }));
-    const { audioUrl, title, album, artist } = currentSong;
-    const audioId = audioUrl.match(/com\/(.*)\.mp4/)?.[1] ?? "";
-    getDownloadAudio({ audioId: audioId, album, artists: artist, title });
-    setTimeout(() => {
-      setGlobalState((prev) => ({
-        ...prev,
-        alertMessage: { isAlertVisible: false, message: "" },
-      }));
-      setIsDownloading(false);
-    }, 10 * 1000);
-  };
+  // const handleDownload = () => {
+  //   setIsDownloading(true);
+  //   setGlobalState((prev) => ({
+  //     ...prev,
+  //     alertMessage: {
+  //       isAlertVisible: true,
+  //       message: "Downloading... Please wait😊",
+  //     },
+  //   }));
+  //   const { audioUrl, title, album, artist } = currentSong;
+  //   const audioId = audioUrl.match(/com\/(.*)\.mp4/)?.[1] ?? "";
+  //   getDownloadAudio({ audioId: audioId, album, artists: artist, title });
+  //   setTimeout(() => {
+  //     setGlobalState((prev) => ({
+  //       ...prev,
+  //       alertMessage: { isAlertVisible: false, message: "" },
+  //     }));
+  //     setIsDownloading(false);
+  //   }, 10 * 1000);
+  // };
 
   return (
     <div>
@@ -368,12 +310,22 @@ const Plalyer = () => {
               <button
                 type="button"
                 className="flex items-center gap-1 p-1 rounded-lg hover:bg-neutral-800 disabled:bg-gray-600"
+                onClick={() =>
+                  handleShare({ title, artist, id, setGlobalState })
+                }
+              >
+                <ShareIcon className="w-4 h-4" />
+                Share
+              </button>
+              {/* <button
+                type="button"
+                className="flex items-center gap-1 p-1 rounded-lg hover:bg-neutral-800 disabled:bg-gray-600"
                 onClick={handleDownload}
                 disabled={isDownloading}
               >
                 <DownloadIcon className="w-4 h-4" />
                 Download
-              </button>
+              </button> */}
             </div>
 
             <div
