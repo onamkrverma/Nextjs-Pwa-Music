@@ -1,6 +1,7 @@
 # Nextjs Pwa Music 
 Nextjs Pwa Music is a Progressive Web App (PWA) music streaming platform that allows users to search for songs or artists, browse charts, and discover new music across various genres and languages.
 
+
 ![image](https://github.com/user-attachments/assets/a5d27616-2f74-4c9c-a920-67561de36f16)
 
 
