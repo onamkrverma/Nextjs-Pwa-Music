@@ -47,7 +47,7 @@ const PlaylistSongs = async ({ params }: Props) => {
           <ImageWithFallback
             id={id}
             src={
-              songs[0].image.find((item) => item.quality === "500x500")?.url ??
+              songs[0]?.image.find((item) => item.quality === "500x500")?.url ??
               "/logo-circle.svg"
             }
             alt={name + "-okv tunes"}
