@@ -1,4 +1,7 @@
 
+// import CardCollection from "@/components/CardCollection";
+// import GreetUser from "@/components/GreetUser";
+// import { homePlaylists } from "@/utils/playlists";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -30,8 +33,6 @@ export default async function Home() {
           type="song"
         />
       ))} */}
-
-      Home
     </div>
   );
 }
