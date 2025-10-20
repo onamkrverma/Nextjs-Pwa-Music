@@ -1,6 +1,6 @@
 import BackButton from "@/components/BackButton";
-import Card from "@/components/Card";
-import { topArtist } from "@/utils/topArtists";
+// import Card from "@/components/Card";
+// import { topArtist } from "@/utils/topArtists";
 import { Metadata } from "next";
 import React from "react";
 
@@ -21,7 +21,7 @@ const TopArtists = () => {
       <h2 className="text-lg sm:text-2xl font-semibold truncate">
         Popular Artists
       </h2>
-      <div className="max-[426px]:grid justify-center grid-cols-2 gap-4 flex flex-wrap items-center">
+      {/* <div className="max-[426px]:grid justify-center grid-cols-2 gap-4 flex flex-wrap items-center">
         {topArtist.map((artist) => (
           <Card
             key={artist.artistid}
@@ -31,7 +31,7 @@ const TopArtists = () => {
             type="artist"
           />
         ))}
-      </div>
+      </div> */}
 
       <p className="text-neutral-300 text-center">
         {`“ If you cannot find your favorite artists, try using the search bar. ”`}

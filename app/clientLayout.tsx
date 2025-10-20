@@ -1,14 +1,14 @@
 "use client";
-import Footer from "@/components/Footer";
+// import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import SideNavbar from "@/components/SideNavbar";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import React, { Suspense, useEffect, useState } from "react";
 import { GlobalContextProvider } from "./GlobalContex";
 import AlertNotification from "@/components/AlertNotification";
 import LoadingBar from "@/components/LoadingBar";
 import { usePathname } from "next/navigation";
-const Plalyer = dynamic(() => import("@/components/Player"), { ssr: false });
+// const Plalyer = dynamic(() => import("@/components/Player"), { ssr: false });
 
 const ClientLayout = ({
   children,
@@ -57,8 +57,8 @@ const ClientLayout = ({
         {!hideSideNavbarPaths.includes(currentPath) ? (
           <AlertNotification />
         ) : null}
-        {!hideSideNavbarPaths.includes(currentPath) ? <Plalyer /> : null}
-        {!hideSideNavbarPaths.includes(currentPath) ? <Footer /> : null}
+        {/* {!hideSideNavbarPaths.includes(currentPath) ? <Plalyer /> : null}
+        {!hideSideNavbarPaths.includes(currentPath) ? <Footer /> : null} */}
       </main>
     </GlobalContextProvider>
   );

@@ -1,6 +1,4 @@
-import CardCollection from "@/components/CardCollection";
-import GreetUser from "@/components/GreetUser";
-import { homePlaylists } from "@/utils/playlists";
+
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,7 +11,7 @@ export const dynamic = "force-static";
 export default async function Home() {
   return (
     <div className="inner-container flex flex-col gap-6">
-      <GreetUser />
+      {/* <GreetUser />
       {homePlaylists.slice(0, 4).map((item) => (
         <CardCollection
           key={item.id}
@@ -31,7 +29,9 @@ export default async function Home() {
           title={item.title}
           type="song"
         />
-      ))}
+      ))} */}
+
+      Home
     </div>
   );
 }
