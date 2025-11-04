@@ -5,5 +5,5 @@ const redis = new Redis({ url: process.env.UPSTASH_REDIS_REST_URL, token: proces
 
 export const ratelimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(10, '60 m'), // 10 requests per 60 minutes
+  limiter: Ratelimit.slidingWindow(5, '1 m'), // 5 requests per 1 minutes
 });
