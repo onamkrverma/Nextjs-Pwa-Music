@@ -20,6 +20,7 @@ export default async function Home() {
           id={item.id}
           title={item.title}
           type="song"
+          length={homePlaylists.slice(0,4).length}
         />
       ))}
 
@@ -30,6 +31,7 @@ export default async function Home() {
           id={item.id}
           title={item.title}
           type="song"
+          length={homePlaylists.slice(4).length}
         />
       ))}
     </div>
