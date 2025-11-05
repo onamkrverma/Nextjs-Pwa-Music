@@ -19,7 +19,7 @@ const CardCollection = ({ type, id, title, length }: Props) => {
     type === 'song' ? getPlaylists({ id: id }) : null;
 
   const { data: playlist, isLoading } = useSWR(
-    type === 'song' ? `/playlist` : null,
+    type === 'song' ? `/playlist?id=${id}` : null,
     playlistFetcher,
     {
       revalidateOnFocus: false,
